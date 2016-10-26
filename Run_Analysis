@@ -1,0 +1,47 @@
+#### Step 1 ####
+setwd("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset")
+
+#Importing X datasets 
+x_test <- read.table("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset/test/X_test.txt")
+y_test <- read.table("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset/test/y_test.txt")
+subject_test <- read.table("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset/test/subject_test.txt")
+
+#Importing Y datasets 
+x_train <- read.table("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset/train/X_train.txt")
+y_train <- read.table("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset/train/y_train.txt")
+subject_train <- read.table("C:/Users/shubham.arora/Desktop/Coursera_Cleaning_Data/Week4/UCI HAR Dataset/train/subject_train.txt")
+
+#Merging the 3 datasets 
+x_data <- rbind(x_test,x_train)
+y_data <- rbind(y_test,y_train)
+subject_data <- rbind(subject_test,subject_train)
+
+#### Step 2 ####
+feature_data <- read.table("features.txt")
+
+
+mean_std <- grep("-(mean|std)\\(\\)", feature_data[, 2])
+
+x_data <- x_data[,mean_std]
+names(x_data) <- feature_data[mean_std,2]
+
+
+#### Step 3 ####
+activity_data <- read.table("activity_labels.txt")
+
+y_data[, 1] <- activity_data[y_data[, 1], 2]
+names(y_data) <- "activity"
+
+
+#### Step 4 ####
+names(subject_data) <- "subjects"
+
+
+#combining all data 
+data_combine <- cbind(x_data,y_data,subject_data)
+
+
+#### Step 5 ####
+averages_data <- ddply(data_combine, .(subjects, activity), function(x) colMeans(x[, 1:66]))
+
+write.table(averages_data, "averages_data.txt", row.name=FALSE)

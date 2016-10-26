@@ -1,0 +1,23 @@
+The R script runs as following.
+
+- Merge the training and the test sets to create one data set and names them
+
+- Extracts only the measurements on the mean and standard deviation for each measurement and names the variables with "subject","activity" and the feature names.
+
+- Use descriptive activity names to name the activities in the data set.
+
+- Appropriately labels the data set with descriptive variable names.
+
+- Create a the final tidy data set with the average of each variable for each activity and each subject.
+
+Final Dataset :- 
+
+Subject:
+30 volunteer which ranges from 1 to 30.
+
+Activity:
+Contains 6 factors with walking, walking upstairs, walking downstairs, sitting, standing and laying.
+
+66 left variables:
+They show the average of each variable, which is the mean or standard deviation in the 561-feature time and frequency 
+domain variables, for each activity and each subject.
